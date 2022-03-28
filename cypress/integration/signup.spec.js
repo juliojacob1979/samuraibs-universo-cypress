@@ -97,7 +97,7 @@ describe('cadastro', function () {
         })
     })
 
-    context.only('quando nao preencho nenhum campo', function () {
+    context('quando nao preencho nenhum campo', function () {
         const alertMessages = ['Nome é obrigatório', 'E-mail é obrigatório', 'Senha é obrigatória']
 
         before(function () {
