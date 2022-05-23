@@ -2,15 +2,18 @@ import SignupPage from '../support/pages/signup'
 
 describe('cadastro', function () {
 
-    context('quando o usuario é novato', function () {
-        const user = {
-            name: 'Julio Jacob',
-            email: 'julio@samuraibs.com',
-            password: 'pwd123'
-        }
+    before(function () {
+        cy.fixture('signup').then(function (signup) {
+            this.success = signup.success
+            this.email_dup = signup.email_dup
+            this.email_inv = signup.email_inv
+            this.short_password = signup.short_password
+        })
+    })
 
+    context('quando o usuario é novato', function () {
         before(function () {
-            cy.task('removeUser', user.email)
+            cy.task('removeUser', this.success.email)
                 .then(function (result) {
                     console.log(result)
                 })
@@ -19,58 +22,33 @@ describe('cadastro', function () {
         it('deve cadastrar com sucesso', function () {
 
             SignupPage.go()
-            SignupPage.form(user)
+            SignupPage.form(this.success)
             SignupPage.submit()
             SignupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
         })
     })
 
-
     context('quando o email ja existe', function () {
-        const user = {
-            name: 'Joao Lucas',
-            email: 'joao@samuraibs.com',
-            password: 'pwd123',
-            is_provider: true
-        }
-
         before(function () {
-            cy.task('removeUser', user.email)
-                .then(function (result) {
-                    console.log(result)
-                })
-
-            cy.request(
-                'POST',
-                'http://localhost:3333/users',
-                user
-            ).then(function (response) {
-                expect(response.status).to.eq(200)
-            })
+            cy.postUser(this.email_dup)
         })
 
         it('nao deve cadastrar o usuario', function () {
 
             SignupPage.go()
-            SignupPage.form(user)
+            SignupPage.form(this.email_dup)
             SignupPage.submit()
             SignupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
         })
     })
 
     context('quando o email é incorreto', function () {
-        const user = {
-            name: 'Elizabeth Olsen',
-            email: 'liza.yahoo.com',
-            password: 'pwd123'
-        }
-
         it('deve exibir mensagem de alerta', function () {
             SignupPage.go()
-            SignupPage.form(user)
+            SignupPage.form(this.email_inv)
             SignupPage.submit()
-            SignupPage.alertHaveText('Informe um email válido')
+            SignupPage.alert.haveText('Informe um email válido')
         })
     })
 
@@ -84,21 +62,25 @@ describe('cadastro', function () {
 
         passwords.forEach(function (p) {
             it('nao deve cadastrar com a senha: ' + p, function () {
-                const user = {
-                    name: 'Jason Friday', email: 'jason@gmail.com', password: p}
 
-                SignupPage.form(user)
+                this.short_password.password = p
+
+                SignupPage.form(this.short_password)
                 SignupPage.submit()
             })
         })
 
         afterEach(function () {
-            SignupPage.alertHaveText('Pelo menos 6 caracteres')
+            SignupPage.alert.haveText('Pelo menos 6 caracteres')
         })
     })
 
-    context('quando nao preencho nenhum campo', function () {
-        const alertMessages = ['Nome é obrigatório', 'E-mail é obrigatório', 'Senha é obrigatória']
+    context('quando nao preencho nenhum dos campos', function () {
+        const alertMessages = [
+            'Nome é obrigatório',
+            'E-mail é obrigatório',
+            'Senha é obrigatória'
+        ]
 
         before(function () {
             SignupPage.go()
@@ -107,17 +89,12 @@ describe('cadastro', function () {
         })
 
         alertMessages.forEach(function (alert) {
-            it('nao deve cadastrar com a senha: ' + alert.toLowerCase(), function () {
-                
-                SignupPage.alertHaveText(alert)
-                
+            it('deve exibir ' + alert.toLowerCase(), function () {
+
+                SignupPage.alert.haveText(alert)
+
             })
         })
     })
 
 })
-
-
-
-
-
