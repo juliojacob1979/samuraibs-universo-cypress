@@ -50,7 +50,7 @@ Cypress.Commands.add('recoveryPass', function (email) {
         cy.task('findToken', email)
         .then(function(result){
             // console.log(result)
-            Cypress.env('recorvyToken', result.token)
+            Cypress.env('recoveryToken', result.token)
         })
 
     })        
