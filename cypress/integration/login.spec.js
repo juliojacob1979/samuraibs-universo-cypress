@@ -1,6 +1,6 @@
 
 import loginPage from '../support/pages/login'
-import DashPage from '../support/pages/dash'
+import dashPage from '../support/pages/dash'
 
 describe('login', function () {
 
@@ -21,7 +21,7 @@ describe('login', function () {
             loginPage.go()
             loginPage.form(user)
             loginPage.submit()
-            DashPage.header.userLoggedIn(user.name)
+            dashPage.header.userLoggedIn(user.name)
         })
 
     })

@@ -1,4 +1,4 @@
-import SignupPage from '../support/pages/signup'
+import signupPage from '../support/pages/signup'
 
 describe('cadastro', function () {
 
@@ -21,10 +21,10 @@ describe('cadastro', function () {
 
         it('deve cadastrar com sucesso', function () {
 
-            SignupPage.go()
-            SignupPage.form(this.success)
-            SignupPage.submit()
-            SignupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
+            signupPage.go()
+            signupPage.form(this.success)
+            signupPage.submit()
+            signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
         })
     })
@@ -36,19 +36,19 @@ describe('cadastro', function () {
 
         it('nao deve cadastrar o usuario', function () {
 
-            SignupPage.go()
-            SignupPage.form(this.email_dup)
-            SignupPage.submit()
-            SignupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
+            signupPage.go()
+            signupPage.form(this.email_dup)
+            signupPage.submit()
+            signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
         })
     })
 
     context('quando o email é incorreto', function () {
         it('deve exibir mensagem de alerta', function () {
-            SignupPage.go()
-            SignupPage.form(this.email_inv)
-            SignupPage.submit()
-            SignupPage.alert.haveText('Informe um email válido')
+            signupPage.go()
+            signupPage.form(this.email_inv)
+            signupPage.submit()
+            signupPage.alert.haveText('Informe um email válido')
         })
     })
 
@@ -57,7 +57,7 @@ describe('cadastro', function () {
         const passwords = ['1', '2a', 'ab3', 'abc4', 'ab#c5']
 
         beforeEach(function () {
-            SignupPage.go()
+            signupPage.go()
         })
 
         passwords.forEach(function (p) {
@@ -65,13 +65,13 @@ describe('cadastro', function () {
 
                 this.short_password.password = p
 
-                SignupPage.form(this.short_password)
-                SignupPage.submit()
+                signupPage.form(this.short_password)
+                signupPage.submit()
             })
         })
 
         afterEach(function () {
-            SignupPage.alert.haveText('Pelo menos 6 caracteres')
+            signupPage.alert.haveText('Pelo menos 6 caracteres')
         })
     })
 
@@ -83,15 +83,15 @@ describe('cadastro', function () {
         ]
 
         before(function () {
-            SignupPage.go()
-            SignupPage.submit()
+            signupPage.go()
+            signupPage.submit()
 
         })
 
         alertMessages.forEach(function (alert) {
             it('deve exibir ' + alert.toLowerCase(), function () {
 
-                SignupPage.alert.haveText(alert)
+                signupPage.alert.haveText(alert)
 
             })
         })

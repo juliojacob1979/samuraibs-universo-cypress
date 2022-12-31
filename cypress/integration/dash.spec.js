@@ -1,33 +1,31 @@
+import dashPage from '../support/pages/dash'
 
+import { customer, provider, appointment } from '../support/factories/dash'
 
 describe('dashboard', function () {
 
     context('quando o cliente faz um agendamento no app mobile', function () {
 
-        const data = {
-            customer: {
-                name: 'Nikki Sixx',
-                email: 'sixx@motleycrue.com',
-                password: 'pwd123',
-                is_provider: false
-            },
-            samurai: {
-                name: 'Ramon Valdes',
-                email: 'ramon@televisa.com',
-                password: 'pwd123',
-                is_provider: true
-            }
-        }
+        before(function () {
+            cy.postUser(provider)
+            cy.postUser(customer)
 
-        before(function(){
-            cy.postUser(data.customer)
-            cy.postUser(data.samurai)
+            cy.apiLogin(customer)
+
+            cy.setProviderId(provider.email)
+            cy.createAppointment(appointment.hour)
         })
 
         it('o mesmo deve ser exibido no dashboard', function () {
-            console.log(data)
+
+            const date = Cypress.env('appointmentDate')
+
+            //cy.uiLogin(provider)
+            cy.apiLogin(provider, true)
+
+            dashPage.calendarShouldBeVisible()
+            dashPage.selectDay(date)
+            dashPage.appointmentShouldBe(customer, appointment.hour)
         })
-
     })
-
 })
