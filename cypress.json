@@ -10,5 +10,6 @@
         "password": "ucs4YEOa9WOYi6sCnHQ_WlRSMh5GMCuj",
         "database": "wysabejw",
         "port": 5432 
-    }
+    },
+    projectId: "habiry"
 }
