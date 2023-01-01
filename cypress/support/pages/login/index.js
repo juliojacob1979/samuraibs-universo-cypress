@@ -1,6 +1,6 @@
 import { el } from './elements'
 import toast from '../../components/toast'
-import alert from '../../components/alert' 
+import alert from '../../components/alert'
 
 class LoginPage {
 
@@ -11,11 +11,14 @@ class LoginPage {
 
     go() {
         cy.visit('/')
+
+        cy.contains(el.title)
+            .should('be.visible')
     }
 
     form(user) {
         cy.get(el.email)
-            .clear()    
+            .clear()
             .type(user.email)
         cy.get(el.password)
             .clear()
