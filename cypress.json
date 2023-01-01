@@ -11,5 +11,5 @@
         "database": "wysabejw",
         "port": 5432 
     },
-    projectId: "habiry"
+    "projectId": "habiry"
 }
