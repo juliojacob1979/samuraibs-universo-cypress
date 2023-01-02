@@ -30,14 +30,14 @@ jobs:
       - name: Ping API (heroku)
         uses: Leocardoso94/is-my-site-up@v1.2
         with:
-          site: http://localhost:3333
+          site: https://samuraibs-api-juliojacob.fly.dev
 
       - name: 'UI Tests - Firefox'
         uses: cypress-io/github-action@v2
         with:
           # we have already installed all dependencies above
           install-command: yarn install
-          wait-on: 'http://localhost:3000'
+          wait-on: 'https://samuraibs-web-juliojacob.fly.dev'
           wait-on-timeout: 120
           browser: firefox
           record: true
