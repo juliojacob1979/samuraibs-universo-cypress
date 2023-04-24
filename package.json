@@ -6,10 +6,10 @@
   "author": "Julio Jacob",
   "license": "MIT",
   "devDependencies": {
-    "@faker-js/faker": "^6.0.0",
-    "cypress": "9.7.0",
+    "@faker-js/faker": "^7.6.0",
+    "cypress": "^9.7.0",
     "moment": "^2.29.4",
-    "pg": "^8.7.3",
+    "pg": "^8.10.0",
     "underscore": "^1.13.6"
   }
 }
